@@ -113,22 +113,9 @@ def _activation_func(activation_name):
                 'activation': activation_name}, n_in
     return func
 
-def _alpha_activation_func(activation_name):
+def _alpha_activation_function(activation_name, alpha_parameter_name='alpha'):
     def func(h5, layer_config, n_in, layer_type):
-        """Store activation parameters, including alpha"""
-        pars = {
-            'weights':[], 'bias':[],'architecture':'dense',
-            'activation':{
-                'function': activation_name,
-                'alpha': layer_config['alpha']
-            }
-        }
-        return pars, n_in
-    return func
-
-def _trainable_alpha_activation_function(activation_name, alpha_parameter_name='alpha'):
-    def func(h5, layer_config, n_in, layer_type):
-        """Store single trainable activation parameter"""
+        """Store activation parameter"""
         pars = {
             'weights':[], 'bias':[],'architecture':'dense',
             'activation':{
@@ -152,7 +139,7 @@ layer_converters = {
     'activation': _activation_parameters,
     'softmax': _activation_func('softmax'),
     'leakyrelu': _alpha_activation_func('leakyrelu'),
-    'swish': _trainable_alpha_activation_function('swish', alpha_parameter_name='beta'),
+    'swish': _alpha_activation_function('swish', alpha_parameter_name='beta'),
     'timedistributed': _time_distributed_parameters,
     }
 # __________________________________________________________________________
